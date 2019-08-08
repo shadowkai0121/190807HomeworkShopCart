@@ -10,4 +10,9 @@ class ProductController extends Controller
 
         $this->view("Product/Product", $data);
     }
+    
+    public function test()
+    {
+        echo "test ok";
+    }
 }

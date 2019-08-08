@@ -9,8 +9,10 @@ class Controller
         return new $model($model);
     }
     
-    protected function view($view, $data=[])
+    protected function view($view, $data=[], $head = "Shared/Head.php", $foot = "Shared/Foot.php")
     {
-        require_once "Views/$view.php";
+        include_once "Views/$head";
+        include_once "Views/$view.php";
+        include_once "Views/$foot";
     }
 }

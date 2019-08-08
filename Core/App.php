@@ -29,7 +29,11 @@ class App
         require_once "Controllers/$controllerName.php";
 
         $controller = new $controllerName();
-        $method = $this->url[1];
+
+        $method = "no method";
+        if (isset($this->url[1])) {
+            $method = $this->url[1];
+        }
 
         // 如果方法不存在則直接回傳預設頁面
         if (!method_exists($controller, $method)) {

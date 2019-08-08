@@ -16,6 +16,7 @@ class Table
         $this->table = $table . "s";
     }
 
+    // 將資料行轉換成為關聯式陣列
     protected function rowToArray($row)
     {
         $arr = [];

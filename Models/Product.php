@@ -20,7 +20,7 @@ class Product extends Table
     public function getMenu()
     {
         $query = "SELECT *
-        FROM " . $this->table . ";";
+            FROM " . $this->table . ";";
     
         $rawData = $this->db->query($query);
 
