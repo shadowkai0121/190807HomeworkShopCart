@@ -25,7 +25,7 @@
      |               |.htaccess
      |               |index.php
      |     +----+    +---------+
-     +-----+core|
+     +-----+Core|
      |     +----+
      |          |App.php
      |          |Controller.php
@@ -33,7 +33,7 @@
      |          +--------------+
      |
      |     +------+
-     +-----+models|
+     +-----+Models|
      |     +----+-+
      |          |Product.php
      |          |ShopCart.php
@@ -41,14 +41,14 @@
      |          +------------+
      |
      |     +-----------+
-     +-----+controllers|
+     +-----+Controllers|
      |     +----+------+
      |          |ProductController.php
      |          |MemberController.php
      |          +---------------------+
      |
      |      +-------+         +------+                 +--+
-     +------+ views +----+----+Shared+------------+----+js|
+     +------+ Views +----+----+Shared+------------+----+js|
             +-------+    |    +------+            |    +--+
                          |         |Foot.php      |
                          |         |Head.php      |    +---+
