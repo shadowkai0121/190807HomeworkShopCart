@@ -1,0 +1,7 @@
+RewriteEngine on
+# 如果找不到方向重新導向至index
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# 保留網址不存在的部分
+# 透過 $_GET 取得的結尾呼叫 Controller 之類功能
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
