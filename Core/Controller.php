@@ -15,4 +15,9 @@ class Controller
         include_once "Views/$view.php";
         include_once "Views/$foot";
     }
+
+    protected function redirect($target)
+    {
+        header("Location: http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/" . $target);
+    }
 }

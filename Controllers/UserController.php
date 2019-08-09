@@ -19,15 +19,15 @@ class UserController extends Controller
         $user->userPwd = $_POST["pwd"];
 
         if ($user->vertify()) {
-            $_SESSION["user"] = $user->userName;
+            $_SESSION["user"] = $user->userID;
         }
 
-        header("Location: http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/Product");
+        $this->redirect("Product");
     }
 
     public function Logout()
     {
         unset($_SESSION["user"]);
-        header("Location: http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/Product");
+        $this->redirect("Product");
     }
 }

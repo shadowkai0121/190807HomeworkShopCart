@@ -3,6 +3,7 @@ require_once "Core/Table.php";
 
 class User extends Table
 {
+    public $userID = 0;
     public $userName = "";
     public $userPwd = "";
    
@@ -27,6 +28,9 @@ class User extends Table
         $user->bindValue(":userPwd", $this->userPwd);
 
         $user->execute();
+
+        $row = $user->fetch(PDO::FETCH_ASSOC);
+        $this->userID = $row["userID"];
 
         return $user->rowCount() === 1;
     }
