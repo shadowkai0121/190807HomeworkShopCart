@@ -30,6 +30,7 @@
      |          |App.php
      |          |Controller.php
      |          |Database.php
+     |          |Table.php
      |          +--------------+
      |
      |     +------+
