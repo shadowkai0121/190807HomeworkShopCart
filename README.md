@@ -1,8 +1,12 @@
 # ShopCart
+> 練習目標
+> - 原生 PHP 應用
+> - 資安
+> - Bootstrap3
 
 ### 資料庫
 
-![Homework_ER](C:/Users/admin/Downloads/Homework_ER.png)
+![Homework_ER](./assets/Homework_ER.png)
 
 ###### View
 
