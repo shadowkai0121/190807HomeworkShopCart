@@ -1,54 +1,44 @@
+<?php
 
-   <style>
-       .menu{
-           font-size: 1.5em;
-       }
-
-       .menu td {
-           padding: 0.5em;
-       }
-
-       .menu input{
-           text-align: center;
-           width: 20%;
-       }
-
-       .menu tr td:last-child{
-           color: "red";
-       }
-   </style>
-   
-   <table class="menu table-bordered table-hover container-fluid text-center">
-        <?php
-        $menu = "";
-            foreach ($data as $row) {
-                foreach ($row as $field => $value) {
-                    if (strpos($field, "Photo") || strpos($field, "tion")) {
-                        continue;
-                    }
-                    $menu .= "<td>$value</td>";
-                }
-                $menu .= '
-                <td> 
-                    <input type="text" value="1">
-                    <button>add</button>
-                    <button>del</button>
-                </td>
-                ';
-                $menu .= "</tr>";
+function printMenu($products)
+{
+    $menu = "";
+    foreach ($products as $row) {
+        foreach ($row as $field => $value) {
+            if (strpos($field, "Photo") || strpos($field, "tion")) {
+                continue;
             }
-        echo $menu;
-        ?>
-    </table>
+            $menu .= "<td>$value</td>";
+        }
+        
+        // 按鈕
+        $menu .= '
+            <td> 
+                <input type="text" value="1">
+                <button id="' . $row["productID"] . '" onclick="addItem(this)">add</button>
+                <button id="' . $row["productID"] . '" onclick="delItem(this)">del</button>
+            </td>
+        ';
+        $menu .= "</tr>";
+    }
+    echo $menu;
+}
 
+?>
+
+   
+<table class="menu table-bordered table-hover container-fluid text-center">
+        <?php printMenu($data)?>
+</table>
 
 <script>
 
-    add.onclick = ()=>{
-        axios.get("Product/test")
-            .then(res=>{
-                console.log(res);
-            });
-    }
+       function addItem(btn){
+           console.log(btn.id);
+       }
+
+       function delItem(btn){
+           // delete
+       }
 
 </script>

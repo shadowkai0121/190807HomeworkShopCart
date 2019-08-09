@@ -7,19 +7,19 @@ class App
 
     public function __construct()
     {
-        $this->parseURL();
+        if (isset($_GET["url"])) {
+            $this->parseURL();
 
-        $this->callController();
+            $this->callController();
+        }
     }
 
     private function parseURL()
     {
-        if (isset($_GET["url"])) {
-            $this->url = explode(
-                "/",
-                rtrim($_GET["url"])
-            );
-        }
+        $this->url = explode(
+            "/",
+            rtrim($_GET["url"])
+        );
     }
 
     private function callController()

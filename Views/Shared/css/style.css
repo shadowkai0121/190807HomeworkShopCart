@@ -1,0 +1,12 @@
+.menu{
+    font-size: 1.5em;
+}
+
+.menu td {
+    padding: 0.5em;
+}
+
+.menu input{
+    text-align: center;
+    width: 20%;
+}
