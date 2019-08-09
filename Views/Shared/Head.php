@@ -1,3 +1,27 @@
+<?php
+
+  function isLogged()
+  {
+      if (!isset($_SESSION["user"])) {
+          $str = "Login";
+          $url = "User/User";
+      } else {
+          $str = "Logout";
+          $url = "User/Logout";
+      }
+
+      $template = <<<template
+        <a href="$url">
+          <span class="glyphicon glyphicon-log-in"></span>
+          $str
+        </a>
+      template;
+
+      echo $template;
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +48,9 @@
           </ul>
             <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="User/User"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li>
+              <?php isLogged()?>
+            </li>
           </ul>
         </div>
       </nav>
