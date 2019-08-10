@@ -27,7 +27,7 @@ class ShopCart extends Table
             $total = 0;
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
-                $list[] = $this->rowToArray($row);
+                $list[] = $this->rowToArray($row, ["userID"]);
                 $total += $row["sum"];
             }
             $list["total"] = $total;

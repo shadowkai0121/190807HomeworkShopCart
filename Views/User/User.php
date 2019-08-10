@@ -3,7 +3,7 @@
 </style>
 
 <div class="container panel panel-default form-boundary">
-  <form class="form-horizontal" method="POST" action="Login">
+  <form class="form-horizontal" method="POST" action="<?=Controller::actionUri("User/Login")?>">
     <div class="form-group">
       <label class="control-label col-md-2 col-md-offset-2" for="userName">帳號</label>
       <div class="col-md-6">

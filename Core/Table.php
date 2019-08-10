@@ -21,11 +21,16 @@ class Table
     }
 
     // 將資料行轉換成為關聯式陣列
-    protected function rowToArray($row)
+    protected function rowToArray($row, $noUseData = [])
     {
         $arr = [];
 
         foreach ($row as $field => $value) {
+            if (isset($noUseData)) {
+                if (in_array($field, $noUseData)) {
+                    continue;
+                }
+            }
             $arr[$field] = $value;
         }
 

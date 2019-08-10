@@ -8,7 +8,7 @@ function printShopCart($shopcart)
         }
         $list .= "<tr>";
         foreach ($row as $field => $value) {
-            if (strpos($field, "Photo") || strpos($field, "ID")) {
+            if (strpos($field, "Photo")) {
                 continue;
             }
             $list .= "<td>$value</td>";

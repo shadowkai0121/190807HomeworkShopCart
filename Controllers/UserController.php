@@ -4,11 +4,16 @@ class UserController extends Controller
 {
     public function index()
     {
-        $this->view("User/index");
+        $this->view("User/User");
     }
 
     public function ShopCart()
     {
+        if (!isset($_SESSION["user"])) {
+            $this->redirect("User");
+            exit();
+        }
+        
         $shopCart = $this->model("ShopCart");
         $data = $shopCart->getShopCart();
         
@@ -25,15 +30,17 @@ class UserController extends Controller
 
         if ($user->vertify()) {
             $_SESSION["user"] = $user->userID;
+            $this->redirect("Product");
+            exit();
         }
 
-        $this->redirect("Product");
+        $this->redirect("User");
     }
 
     public function Logout()
     {
         unset($_SESSION["user"]);
-        $this->redirect("Product");
+        $this->redirect("User");
     }
 
     public function addItem($data)
