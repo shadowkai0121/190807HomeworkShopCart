@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2019 年 08 月 07 日 17:23
+-- 產生時間： 2019 年 08 月 10 日 10:34
 -- 伺服器版本： 10.3.16-MariaDB
 -- PHP 版本： 7.3.6
 
@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `homework`
 --
-
+DROP DATABASE IF EXISTS homework;
+CREATE DATABASE homework;
 -- --------------------------------------------------------
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `orderdetails` (
 --
 
 INSERT INTO `orderdetails` (`orderID`, `userID`, `productID`, `quantity`, `isPaid`) VALUES
-(NULL, 1, 1, 5, 0);
+(NULL, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 

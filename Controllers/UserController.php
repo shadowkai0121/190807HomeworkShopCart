@@ -52,7 +52,8 @@ class UserController extends Controller
         $this->checkLogin();
         
         if (count($data) != 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
-            http_response_code("404");
+            http_response_code("400");
+            echo "資料輸入錯誤";
             exit();
         }
 
@@ -62,12 +63,7 @@ class UserController extends Controller
         $orderDetail->productID = $data[0];
         $orderDetail->quantity = $data[1];
 
-        if ($orderDetail->putItem()) {
-            echo "加入購物車成功！";
-        } else {
-            http_response_code(500);
-            echo "加入購物車失敗，請再試一次";
-        }
+        $orderDetail->putItem();
     }
 
     public function delItem($data)
@@ -77,7 +73,8 @@ class UserController extends Controller
         $this->checkLogin();
         
         if (count($data) != 1 || !is_numeric($data[0])) {
-            http_response_code("404");
+            http_response_code("400");
+            echo "資料輸入錯誤";
             exit();
         }
 
