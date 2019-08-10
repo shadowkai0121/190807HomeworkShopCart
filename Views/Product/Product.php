@@ -6,7 +6,7 @@ function printMenu($products)
     foreach ($products as $row) {
         $menu .= "<tr>";
         foreach ($row as $field => $value) {
-            if (strpos($field, "Photo") || strpos($field, "tion")) {
+            if (strpos($field, "ID")||strpos($field, "Photo") || strpos($field, "tion")) {
                 continue;
             }
             $menu .= "<td>$value</td>";
@@ -16,8 +16,8 @@ function printMenu($products)
         $menu .= '
             <td> 
                 <input id="quantity' . $row["productID"] . '" type="text" value="1">
-                <button onclick="addItem(' . $row["productID"] . ')">add</button>
-                <button onclick="delItem(' . $row["productID"] . ')">del</button>
+                <button onclick="addItem(' . $row["productID"] . ')"><span class="glyphicon glyphicon-heart"></span></button>
+                <button onclick="delItem(' . $row["productID"] . ')"><span class="glyphicon glyphicon-trash"</span></button>
             </td>
         ';
         $menu .= "</tr>";
@@ -41,12 +41,13 @@ function printMenu($products)
         function addItem(product){
             let qnt = document.getElementById("quantity" + product).value;
             let uri = 
+                url +
                 "User/addItem/" +
                 product + "/" + qnt;
 
             $.post(uri)
                 .then(res => {
-                    console.log(res);
+                    console.log(res.data);
                 })
                 .catch(err => {
                     if(err.status == 401){

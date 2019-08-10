@@ -47,7 +47,6 @@ class UserController extends Controller
     {
         // data[0] = 產品編號
         // data[1] = 產品數量
-
         $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST", 404);
 
         if (count($data) != 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
