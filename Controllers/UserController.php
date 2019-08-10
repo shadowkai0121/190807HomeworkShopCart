@@ -9,8 +9,10 @@ class UserController extends Controller
 
     public function ShopCart()
     {
-        $this->model("ShopCart");
-        $this->view("User/ShopCart", "ya");
+        $shopCart = $this->model("ShopCart");
+        $data = $shopCart->getShopCart();
+        
+        $this->view("User/ShopCart", $data);
     }
 
     public function Login()
