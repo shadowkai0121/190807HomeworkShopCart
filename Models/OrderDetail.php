@@ -31,7 +31,7 @@ class OrderDetail extends Table
             query;
         }
 
-        if ($this->insertOrUpdate($query)) {
+        if ($this->queryExecutor($query, true)) {
             echo "修改購物車成功";
         } else {
             http_response_code(500);
@@ -44,7 +44,7 @@ class OrderDetail extends Table
         if (!$this->isExists()) {
             http_response_code(400);
             echo "沒有此項產品在購物車內";
-            exit();
+            return;
         }
 
         $query = <<<query
@@ -54,12 +54,7 @@ class OrderDetail extends Table
             AND isPaid = 0;
         query;
 
-        $orderDetail = $this->db->prepare($query);
-
-        $orderDetail->bindValue(":userID", $this->userID);
-        $orderDetail->bindValue(":productID", $this->productID);
-
-        if ($orderDetail->execute()) {
+        if ($this->queryExecutor($query)) {
             echo "刪除成功";
         } else {
             http_response_code(500);
@@ -76,24 +71,23 @@ class OrderDetail extends Table
             AND isPaid = 0;
         query;
 
-        $orderDetail = $this->db->prepare($query);
+        $result = $this->queryExecutor($query);
 
-        $orderDetail->bindValue(":userID", $this->userID);
-        $orderDetail->bindValue(":productID", $this->productID);
-
-        $orderDetail->execute();
-
-        return $orderDetail ->rowCount() !== 0;
+        return $result->rowCount() !== 0;
     }
 
-    private function insertOrUpdate($query)
+    private function queryExecutor($query, $haveQuantity = false)
     {
         $orderDetail = $this->db->prepare($query);
 
         $orderDetail->bindValue(":userID", $this->userID);
         $orderDetail->bindValue(":productID", $this->productID);
-        $orderDetail->bindValue(":quantity", $this->quantity);
+        
+        if ($haveQuantity) {
+            $orderDetail->bindValue(":quantity", $this->quantity);
+        }
 
-        return $orderDetail->execute();
+        $orderDetail->execute();
+        return $orderDetail;
     }
 }
