@@ -9,23 +9,34 @@ class Controller
         return new $model($model);
     }
     
-    public function view($view, $data=[], $head = "Shared/Head.php", $foot = "Shared/Foot.php")
+    public function view($view, $data=[], $head = "Shared/Head", $foot = "Shared/Foot")
     {
-        include_once "Views/$head";
+        include_once "Views/$head.php";
         include_once "Views/$view.php";
-        include_once "Views/$foot";
+        include_once "Views/$foot.php";
     }
 
-    public function checkLogin()
+    public function isLogin()
     {
-        if (!isset($_SESSION["user"])) {
-            http_response_code("401");
-            echo "請先登入再進行操作";
-            exit();
+        if (isset($_SESSION["user"])) {
+            return true;
         }
+
+        return false;
     }
 
-    public function checkRequestMethod($request, $types, $errAction)
+    public function redirect($action)
+    {
+        header("Location: {$this->actionUri($action)}");
+    }
+
+    public static function actionUri($action)
+    {
+        return "http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/" . $action;
+    }
+
+    // 比對允許的請求，不符合時以 errAction 回應
+    public function checkRequestMethod($request, $types, $message = "", $errAction = null)
     {
         $result = false;
 
@@ -40,23 +51,21 @@ class Controller
         }
 
         if (!$result) {
-            if (is_numeric($errAction)) {
-                http_response_code($errAction);
-                exit();
-            } else {
-                $this->redirect($errAction);
-                exit();
-            }
+            $this->errorHandler($errAction, $message);
         }
     }
 
-    public function redirect($action)
+    public function errorHandler($errAction = null, $message = "")
     {
-        header("Location: {$this->actionUri($action)}");
-    }
+        if (is_null($errAction)) {
+            http_response_code(404);
+        } elseif (is_numeric($errAction)) {
+            http_response_code($errAction);
+        } else {
+            $errAction();
+        }
 
-    public static function actionUri($action)
-    {
-        return "http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/" . $action;
+        echo $message;
+        exit();
     }
 }

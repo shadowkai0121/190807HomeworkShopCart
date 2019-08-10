@@ -9,9 +9,9 @@ class UserController extends Controller
 
     public function ShopCart()
     {
-        if (!isset($_SESSION["user"])) {
+        if (!$this->isLogin()) {
             $this->redirect("User");
-            exit();
+            return;
         }
         
         $shopCart = $this->model("ShopCart");
@@ -22,7 +22,11 @@ class UserController extends Controller
 
     public function Login()
     {
-        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST", 404);
+        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST");
+
+        if (strlen($_POST["account"]) >= 20 || strlen($_POST["pwd"]) >= 20) {
+            $this->errorHandler();
+        }
 
         $user = $this->model("User");
         $user->userName = $_POST["account"];
@@ -31,7 +35,7 @@ class UserController extends Controller
         if ($user->vertify()) {
             $_SESSION["user"] = $user->userID;
             $this->redirect("Product");
-            exit();
+            return;
         }
 
         $this->redirect("User");
@@ -47,14 +51,14 @@ class UserController extends Controller
     {
         // data[0] = 產品編號
         // data[1] = 產品數量
-        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST", 404);
+        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST");
 
-        $this->checkLogin();
+        if (!$this->isLogin()) {
+            $this->errorHandler(401, "請先登入再進行操作");
+        }
         
         if (count($data) != 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
-            http_response_code("400");
-            echo "資料輸入錯誤";
-            exit();
+            $this->errorHandler();
         }
 
         $orderDetail = $this->model("OrderDetail");
@@ -68,14 +72,15 @@ class UserController extends Controller
 
     public function delItem($data)
     {
-        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "DELETE", 404);
+        // data[0] = 產品編號
+        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "DELETE");
 
-        $this->checkLogin();
+        if (!$this->isLogin()) {
+            $this->errorHandler(401, "請先登入再進行操作");
+        }
         
         if (count($data) != 1 || !is_numeric($data[0])) {
-            http_response_code("400");
-            echo "資料輸入錯誤";
-            exit();
+            $this->errorHandler();
         }
 
         $orderDetail = $this->model("OrderDetail");

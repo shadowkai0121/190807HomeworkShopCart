@@ -11,6 +11,8 @@ class App
             $this->parseURL();
 
             $this->callController();
+        } else {
+            header("Location: " . Controller::actionUri("Product"));
         }
     }
 
@@ -25,7 +27,7 @@ class App
     private function callController()
     {
         $controllerName = $this->url[0]."Controller";
-
+        
         require_once "Controllers/$controllerName.php";
 
         $controller = new $controllerName();
