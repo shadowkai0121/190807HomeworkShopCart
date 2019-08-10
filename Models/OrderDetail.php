@@ -14,6 +14,9 @@ class OrderDetail extends Table
 
     public function putItem()
     {
+        if ($this->isExists()) {
+            return;
+        }
         $query = <<<query
             INSERT INTO {$this->table}(userID, productID, quantity)
             VALUES (:userID, :productID, :quantity);
@@ -30,21 +33,7 @@ class OrderDetail extends Table
 
     public function delItem()
     {
-        $query = <<<query
-            SELECT * FROM {$this->table}
-            WHERE userID = :userID
-            AND productID = :productID
-            AND isPaid = 0;
-        query;
-
-        $orderDetail = $this->db->prepare($query);
-
-        $orderDetail->bindValue(":userID", $this->userID);
-        $orderDetail->bindValue(":productID", $this->productID);
-
-        $orderDetail->execute();
-
-        if ($orderDetail ->rowCount() === 0) {
+        if ($this->isExists()) {
             http_response_code(500);
             echo "沒有此項產品在購物車內";
             exit();
@@ -63,5 +52,24 @@ class OrderDetail extends Table
         $orderDetail->bindValue(":productID", $this->productID);
 
         return $orderDetail->execute();
+    }
+
+    private function isExists()
+    {
+        $query = <<<query
+            SELECT * FROM {$this->table}
+            WHERE userID = :userID
+            AND productID = :productID
+            AND isPaid = 0;
+        query;
+
+        $orderDetail = $this->db->prepare($query);
+
+        $orderDetail->bindValue(":userID", $this->userID);
+        $orderDetail->bindValue(":productID", $this->productID);
+
+        $orderDetail->execute();
+
+        return $orderDetail ->rowCount() === 0;
     }
 }
