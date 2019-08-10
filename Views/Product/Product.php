@@ -6,7 +6,7 @@ function printMenu($products)
     foreach ($products as $row) {
         $menu .= "<tr>";
         foreach ($row as $field => $value) {
-            if (strpos($field, "ID")||strpos($field, "Photo") || strpos($field, "tion")) {
+            if (strpos($field, "ID")) {
                 continue;
             }
             $menu .= "<td>$value</td>";

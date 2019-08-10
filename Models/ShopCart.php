@@ -24,10 +24,17 @@ class ShopCart extends Table
 
         if ($rawData->rowCount()) {
             $list = [];
+            $noUseData = ["userID", "productPhotoS"];
             $total = 0;
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
-                $list[] = $this->rowToArray($row, ["userID"]);
+                $list[] = array_filter(
+                    $row,
+                    function ($key) use ($noUseData) {
+                        return !in_array($key, $noUseData);
+                    },
+                    ARRAY_FILTER_USE_KEY
+                );
                 $total += $row["sum"];
             }
             $list["total"] = $total;

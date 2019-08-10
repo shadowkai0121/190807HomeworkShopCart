@@ -25,10 +25,17 @@ class Product extends Table
         $rawData = $this->db->query($query);
 
         if ($rawData->rowCount()) {
+            $noUseData = ["userID", "productPhotoS", "productPhotoL", "productIntroduction", "productDescription"];
             $menu = [];
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
-                $menu[] = $this->rowToArray($row);
+                $menu[] = array_filter(
+                    $row,
+                    function ($key) use ($noUseData) {
+                        return !in_array($key, $noUseData);
+                    },
+                    ARRAY_FILTER_USE_KEY
+                );
             }
         }
 

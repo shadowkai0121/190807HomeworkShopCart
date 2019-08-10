@@ -20,20 +20,20 @@ class Table
         }
     }
 
-    // 將資料行轉換成為關聯式陣列
-    protected function rowToArray($row, $noUseData = [])
-    {
-        $arr = [];
+    // 篩選不使用的資料
+    // protected function arrayFilter($row, $noUseData = [])
+    // {
+    //     $arr = [];
 
-        foreach ($row as $field => $value) {
-            if (isset($noUseData)) {
-                if (in_array($field, $noUseData)) {
-                    continue;
-                }
-            }
-            $arr[$field] = $value;
-        }
+    //     foreach ($row as $field => $value) {
+    //         if (isset($noUseData)) {
+    //             if (in_array($field, $noUseData)) {
+    //                 continue;
+    //             }
+    //         }
+    //         $arr[$field] = $value;
+    //     }
 
-        return $arr;
-    }
+    //     return $arr;
+    // }
 }
