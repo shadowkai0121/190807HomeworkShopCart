@@ -6,6 +6,10 @@
 
 [資料庫檔案 asstes/homework.sql](./assets/homework.sql)
 
+在XAMPP下執行
+
+
+
 網頁登入帳號
 
 admin
@@ -84,3 +88,6 @@ admin
 
 ```
 
+
+
+~~頁面好醜~~
