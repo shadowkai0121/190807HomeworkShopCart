@@ -9,15 +9,45 @@ class Controller
         return new $model($model);
     }
     
-    protected function view($view, $data=[], $head = "Shared/Head.php", $foot = "Shared/Foot.php")
+    public function view($view, $data=[], $head = "Shared/Head.php", $foot = "Shared/Foot.php")
     {
         include_once "Views/$head";
         include_once "Views/$view.php";
         include_once "Views/$foot";
     }
 
-    protected function redirect($target)
+    public function checkRequestMethod($request, $types, $errAction)
     {
-        header("Location: http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/" . $target);
+        $result = false;
+
+        if (!is_array($types)) {
+            $result = $request === $types;
+        } else {
+            foreach ($types as $type) {
+                if ($request === $types) {
+                    $result = true;
+                }
+            }
+        }
+
+        if (!$result) {
+            if (is_numeric($errAction)) {
+                http_response_code($errAction);
+                exit();
+            } else {
+                $this->redirect($errAction);
+                exit();
+            }
+        }
+    }
+
+    public function redirect($action)
+    {
+        header("Location: {$this->actionUri($action)}");
+    }
+
+    public static function actionUri($action)
+    {
+        return "http://" . $_SERVER["SERVER_NAME"] . "/190807HomeworkShopCart/" . $action;
     }
 }

@@ -14,9 +14,9 @@ function printMenu($products)
         // 按鈕
         $menu .= '
             <td> 
-                <input type="text" value="1">
-                <button id="' . $row["productID"] . '" onclick="addItem(this)">add</button>
-                <button id="' . $row["productID"] . '" onclick="delItem(this)">del</button>
+                <input id="quantity' . $row["productID"] . '" type="text" value="1">
+                <button onclick="addItem(' . $row["productID"] . ')">add</button>
+                <button onclick="delItem(' . $row["productID"] . ')">del</button>
             </td>
         ';
         $menu .= "</tr>";
@@ -33,8 +33,26 @@ function printMenu($products)
 
 <script>
 
-       function addItem(btn){
-           console.log(btn.id);
+        let url = 
+            window.location.protocol + "//" +
+            window.location.hostname + "/" +
+            "190807HomeworkShopCart/";
+
+        function addItem(product){
+            let qnt = document.getElementById("quantity" + product).value;
+            let uri = 
+                "User/addItem/" +
+                product + "/" + qnt;
+
+            $.post(uri)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    if(err.status == 401){
+                        window.location.href = url + "User";
+                    }
+                });
        }
 
        function delItem(btn){
