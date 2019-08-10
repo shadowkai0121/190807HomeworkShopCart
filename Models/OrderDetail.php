@@ -3,9 +3,11 @@ require_once "Core/Table.php";
 
 class OrderDetail extends Table
 {
+    public $orderID = 0;
     public $userID = 0;
     public $productID = 0;
     public $quantity = 0;
+    public $isPaid = 0;
 
     public function __construct($table)
     {
@@ -15,7 +17,6 @@ class OrderDetail extends Table
     public function putItem()
     {
         if ($this->isExists()) {
-            echo "is exists";
             $query = <<<query
                 UPDATE orderdetails SET
                 quantity = :quantity
@@ -23,25 +24,18 @@ class OrderDetail extends Table
                 AND productID = :productID
                 AND isPaid = 0;
             query;
-
-            if ($this->insertOrUpdate($query)) {
-                echo "數量修改成功";
-            } else {
-                http_response_code(500);
-                echo "數量修改失敗";
-            }
+        } else {
+            $query = <<<query
+                INSERT INTO {$this->table}(userID, productID, quantity)
+                VALUES (:userID, :productID, :quantity);
+            query;
         }
 
-        $query = <<<query
-            INSERT INTO {$this->table}(userID, productID, quantity)
-            VALUES (:userID, :productID, :quantity);
-        query;
-
         if ($this->insertOrUpdate($query)) {
-            echo "新增購物車成功";
+            echo "修改購物車成功";
         } else {
             http_response_code(500);
-            echo "新增購物車失敗";
+            echo "修改購物車失敗";
         }
     }
 
@@ -65,7 +59,12 @@ class OrderDetail extends Table
         $orderDetail->bindValue(":userID", $this->userID);
         $orderDetail->bindValue(":productID", $this->productID);
 
-        return $orderDetail->execute();
+        if ($orderDetail->execute()) {
+            echo "刪除成功";
+        } else {
+            http_response_code(500);
+            echo "刪除發生錯誤";
+        }
     }
 
     private function isExists()

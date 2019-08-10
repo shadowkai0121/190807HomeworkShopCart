@@ -83,11 +83,6 @@ class UserController extends Controller
         $orderDetail->userID = $_SESSION["user"];
         $orderDetail->productID = $data[0];
 
-        if ($orderDetail->delItem()) {
-            echo "刪除成功";
-        } else {
-            http_response_code(500);
-            echo "刪除發生錯誤";
-        }
+        $orderDetail->delItem();
     }
 }
