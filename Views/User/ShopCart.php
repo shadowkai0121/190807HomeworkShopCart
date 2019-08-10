@@ -27,13 +27,16 @@ function printShopCart($shopcart)
 }
 
 ?>
-
+<?php if ($data["total"] == 0):?>
+<h1>購物車內目前沒有產品</h1>
+<?php else:?>
 <table class="menu table-bordered table-hover container-fluid text-center bg-white">
     <tr>
         <td>產品名稱</td>
         <td>單價</td>
         <td>數量</td>
         <td>小計</td>
+        <td></td>
     </tr>
         <?php printShopCart($data)?>
     <tr>
@@ -50,3 +53,4 @@ function printShopCart($shopcart)
         </td>
     </tr>
 </table>
+<?php endif?>

@@ -34,7 +34,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css'/>
-    <link rel="stylesheet" href="http://Localhost/190807HomeworkShopCart/Views/Shared/css/style.css">
+    <link rel="stylesheet" href="<?=Controller::actionUri("Views/Shared/css/style.css")?>">
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js'></script>
@@ -62,8 +62,3 @@
           </ul>
         </div>
       </nav>
-
-      <script>
-      
-      
-      </script>

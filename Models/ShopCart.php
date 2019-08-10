@@ -31,8 +31,7 @@ class ShopCart extends Table
                 $total += $row["sum"];
             }
             $list["total"] = $total;
+            return $list;
         }
-
-        return $list;
     }
 }

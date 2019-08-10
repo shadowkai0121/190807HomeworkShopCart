@@ -16,6 +16,15 @@ class Controller
         include_once "Views/$foot";
     }
 
+    public function checkLogin()
+    {
+        if (!isset($_SESSION["user"])) {
+            http_response_code("401");
+            echo "請先登入再進行操作";
+            exit();
+        }
+    }
+
     public function checkRequestMethod($request, $types, $errAction)
     {
         $result = false;

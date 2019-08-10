@@ -49,14 +49,10 @@ class UserController extends Controller
         // data[1] = 產品數量
         $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST", 404);
 
+        $this->checkLogin();
+        
         if (count($data) != 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
             http_response_code("404");
-            exit();
-        }
-
-        if (!isset($_SESSION["user"])) {
-            http_response_code("401");
-            echo "請先登入再進行操作";
             exit();
         }
 
@@ -71,6 +67,30 @@ class UserController extends Controller
         } else {
             http_response_code(500);
             echo "加入購物車失敗，請再試一次";
+        }
+    }
+
+    public function delItem($data)
+    {
+        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "DELETE", 404);
+
+        $this->checkLogin();
+        
+        if (count($data) != 1 || !is_numeric($data[0])) {
+            http_response_code("404");
+            exit();
+        }
+
+        $orderDetail = $this->model("OrderDetail");
+
+        $orderDetail->userID = $_SESSION["user"];
+        $orderDetail->productID = $data[0];
+
+        if ($orderDetail->delItem()) {
+            echo "刪除成功";
+        } else {
+            http_response_code(500);
+            echo "刪除發生錯誤";
         }
     }
 }
