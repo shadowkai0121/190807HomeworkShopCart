@@ -4,10 +4,10 @@
   {
       if (!isset($_SESSION["user"])) {
           $str = "Login";
-          $url = "User/User";
+          $url = "/190807HomeworkShopCart/User/User";
       } else {
           $str = "Logout";
-          $url = "User/Logout";
+          $url = "/190807HomeworkShopCart/User/Logout";
       }
 
       $template = <<<template
@@ -20,6 +20,10 @@
       echo $template;
   }
 
+  function changeActiveTab($url, $tab)
+  {
+      echo strpos($url, $tab) ? "active" : "";
+  }
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +36,8 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="http://Localhost/190807HomeworkShopCart/Views/Shared/css/style.css">
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js'></script>
 </head>
 <body>
     <div class="container">
@@ -42,8 +47,12 @@
             <a class="navbar-brand" href="#">Homework</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="Product/Product">Menu</a></li>
-            <li><a href="#">ShopCart</a></li>
+            <li class="<?php changeActiveTab($_SERVER['REQUEST_URI'], "Product/Product")?>">
+              <a href="/190807HomeworkShopCart/Product/Product">Menu</a>
+            </li>
+            <li class="<?php changeActiveTab($_SERVER['REQUEST_URI'], "User/ShopCart")?>">
+              <a href="/190807HomeworkShopCart/User/ShopCart">ShopCart</a>
+            </li>
           </ul>
             <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -53,3 +62,8 @@
           </ul>
         </div>
       </nav>
+
+      <script>
+      
+      
+      </script>

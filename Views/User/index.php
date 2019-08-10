@@ -1,11 +1,5 @@
 <style>
-  .form-boundary{
-    position: relative;
-    width: 40%;
-    top: 50px;
-    border-radius: 10px;
-    padding-top: 4%; 
-  }
+
 </style>
 
 <div class="container panel panel-default form-boundary">
