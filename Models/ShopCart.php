@@ -24,10 +24,13 @@ class ShopCart extends Table
 
         if ($rawData->rowCount()) {
             $list = [];
+            $total = 0;
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
                 $list[] = $this->rowToArray($row);
+                $total += $row["sum"];
             }
+            $list["total"] = $total;
         }
 
         return $list;

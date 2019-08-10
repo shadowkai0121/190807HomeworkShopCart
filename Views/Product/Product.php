@@ -4,6 +4,7 @@ function printMenu($products)
 {
     $menu = "";
     foreach ($products as $row) {
+        $menu .= "<tr>";
         foreach ($row as $field => $value) {
             if (strpos($field, "Photo") || strpos($field, "tion")) {
                 continue;
@@ -25,9 +26,8 @@ function printMenu($products)
 }
 
 ?>
-
    
-<table class="menu table-bordered table-hover container-fluid text-center">
+<table class="menu container-fluid table-bordered text-center bg-white">
         <?php printMenu($data)?>
 </table>
 
