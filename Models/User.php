@@ -35,4 +35,15 @@ class User extends Table
 
         return $user->rowCount() === 1;
     }
+
+    public function checkOut()
+    {
+        $query = "call pro_checkout(:userID);";
+
+        $user = $this->db->prepare($query);
+
+        $user->bindValue(":userID", $this->userID);
+
+        return $user->execute();
+    }
 }

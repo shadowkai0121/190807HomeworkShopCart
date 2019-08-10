@@ -90,4 +90,9 @@ class UserController extends Controller
 
         $orderDetail->delItem();
     }
+
+    public function checkOut()
+    {
+        echo "hello";
+    }
 }

@@ -17,6 +17,7 @@ class OrderDetail extends Table
     public function putItem()
     {
         if ($this->isExists()) {
+            echo "exists";
             $query = <<<query
                 UPDATE orderdetails SET
                 quantity = :quantity

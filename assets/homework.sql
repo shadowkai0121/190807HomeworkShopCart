@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2019 年 08 月 10 日 10:34
+-- 產生時間： 2019 年 08 月 10 日 16:21
 -- 伺服器版本： 10.3.16-MariaDB
 -- PHP 版本： 7.3.6
 
@@ -23,6 +23,29 @@ SET time_zone = "+00:00";
 --
 DROP DATABASE IF EXISTS homework;
 CREATE DATABASE homework;
+
+DELIMITER $$
+--
+-- 程序
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_checkOut` (`uID` INT)  BEGIN
+    SELECT @totalPrice:=sum(sum) FROM vw_shopcart 
+    WHERE userID = 1;
+
+    SET @orderID = DATE_FORMAT(NOW(),'%Y%m%d%H%i%s');
+    SET @orderID = concat(@orderID, FLOOR(RAND() * 10000 + 1000));
+
+    INSERT INTO orders(orderID, userID, totalPrice)
+    VALUES (@orderID, 1, @totalPrice);
+
+    UPDATE orderdetails 
+    SET orderID = @orderID, isPaid = 1
+    WHERE userID = 1
+    AND isPaid = 0;
+  END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -30,19 +53,12 @@ CREATE DATABASE homework;
 --
 
 CREATE TABLE `orderdetails` (
-  `orderID` int(11) DEFAULT NULL,
-  `userID` int(11) DEFAULT NULL,
-  `productID` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  `isPaid` tinyint(4) DEFAULT 0
+  `orderID` char(18) DEFAULT NULL,
+  `userID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `isPaid` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `orderdetails`
---
-
-INSERT INTO `orderdetails` (`orderID`, `userID`, `productID`, `quantity`, `isPaid`) VALUES
-(NULL, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -51,10 +67,10 @@ INSERT INTO `orderdetails` (`orderID`, `userID`, `productID`, `quantity`, `isPai
 --
 
 CREATE TABLE `orders` (
-  `orderID` int(11) DEFAULT NULL,
-  `userID` int(11) DEFAULT NULL,
-  `orderDate` datetime DEFAULT NULL,
-  `totalPrice` varchar(200) DEFAULT NULL
+  `orderID` char(18) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `orderDate` timestamp NULL DEFAULT current_timestamp(),
+  `totalPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
