@@ -30,4 +30,17 @@ class Database
 
         return $this->pdo;
     }
+
+    // 確認是否為 view
+    public function isView($table)
+    {
+        $result = $this->pdo->query(
+            "
+            SHOW FULL TABLES 
+            WHERE TABLE_TYPE = 'view' 
+            AND tables_in_homework = 'vw_{$table}';"
+        );
+
+        return $result->rowCount() > 0;
+    }
 }

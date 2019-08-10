@@ -9,11 +9,15 @@ class Table
     {
         require_once "Core/Database.php";
 
-        $pdo = new Database();
+        $db = new Database();
 
-        $this->db = $pdo->startConnection();
+        $this->db = $db->startConnection();
 
-        $this->table = $table . "s";
+        if (!$db->isView($table)) {
+            $this->table = $table . "s";
+        } else {
+            $this->table = "vw_" . $table;
+        }
     }
 
     // 將資料行轉換成為關聯式陣列

@@ -9,6 +9,7 @@ class UserController extends Controller
 
     public function ShopCart()
     {
+        $this->model("ShopCart");
         $this->view("User/ShopCart", "ya");
     }
 
@@ -46,11 +47,22 @@ class UserController extends Controller
         }
 
         if (!isset($_SESSION["user"])) {
-            echo "使用者未登入";
             http_response_code("401");
+            echo "請先登入再進行操作";
             exit();
         }
 
-        $shopCart = $this->model("OrderDetail");
+        $orderDetail = $this->model("OrderDetail");
+
+        $orderDetail->userID = $_SESSION["user"];
+        $orderDetail->productID = $data[0];
+        $orderDetail->quantity = $data[1];
+
+        if ($orderDetail->putItem()) {
+            echo "加入購物車成功！";
+        } else {
+            http_response_code(500);
+            echo "加入購物車失敗，請再試一次";
+        }
     }
 }

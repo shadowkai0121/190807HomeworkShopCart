@@ -30,6 +30,7 @@ class User extends Table
         $user->execute();
 
         $row = $user->fetch(PDO::FETCH_ASSOC);
+        
         $this->userID = $row["userID"];
 
         return $user->rowCount() === 1;
