@@ -47,7 +47,7 @@ function printShopCart($shopcart)
                     <span class="">總價：<?=$data["total"]?></span>
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-danger" href="#">結帳</a>
+                    <a class="btn btn-danger" onclick="checkOut()">結帳</a>
                 </div>
             </div>
         </td>

@@ -41,3 +41,19 @@ function delItem(product) {
             }
         });
 }
+
+function checkOut() {
+    let uri =
+        url +
+        "/User/CheckOut";
+
+    $.post(uri)
+        .then(res => {
+            location.reload();
+        })
+        .catch(err => {
+            if (err.status == 401) {
+                window.location.href = url + "User";
+            }
+        });
+}

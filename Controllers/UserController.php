@@ -93,6 +93,11 @@ class UserController extends Controller
 
     public function checkOut()
     {
-        echo "hello";
+        $user = $this->model("User");
+
+        $user->userID = $_SESSION["user"];
+
+        $user->checkOut();
+        echo "ok";
     }
 }
