@@ -30,17 +30,17 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_checkOut` (`uID` INT)  BEGIN
     SELECT @totalPrice:=sum(sum) FROM vw_shopcart 
-    WHERE userID = 1;
+    WHERE userID = uID;
 
     SET @orderID = DATE_FORMAT(NOW(),'%Y%m%d%H%i%s');
     SET @orderID = concat(@orderID, FLOOR(RAND() * 10000 + 1000));
 
     INSERT INTO orders(orderID, userID, totalPrice)
-    VALUES (@orderID, 1, @totalPrice);
+    VALUES (@orderID, uID, @totalPrice);
 
     UPDATE orderdetails 
     SET orderID = @orderID, isPaid = 1
-    WHERE userID = 1
+    WHERE userID = uID
     AND isPaid = 0;
   END$$
 

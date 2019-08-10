@@ -93,11 +93,16 @@ class UserController extends Controller
 
     public function checkOut()
     {
-        $user = $this->model("User");
+        $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST");
 
-        $user->userID = $_SESSION["user"];
+        if (!$this->isLogin() || !is_numeric($_SESSION["user"])) {
+            $this->errorHandler();
+        }
+        
+        $checkout = $this->model("ShopCart");
 
-        $user->checkOut();
-        echo "ok";
+        $checkout->userID = $_SESSION["user"];
+
+        $checkout->checkOut();
     }
 }

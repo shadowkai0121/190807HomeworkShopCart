@@ -49,9 +49,11 @@ function checkOut() {
 
     $.post(uri)
         .then(res => {
+            console.log(res);
             location.reload();
         })
         .catch(err => {
+            console.log(err.response);
             if (err.status == 401) {
                 window.location.href = url + "User";
             }

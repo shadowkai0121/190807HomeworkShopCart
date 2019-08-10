@@ -41,4 +41,54 @@ class ShopCart extends Table
             return $list;
         }
     }
+
+    public function checkOut()
+    {
+        $query = "call pro_checkout({$this->userID});";
+
+        $this->db->beginTransaction();
+
+        // $test = $this->db->prepare($query);
+        // $test->bindParam(1, $this->userID, PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT, 4000);
+        // $test->execute();
+        $this->db->query($query);
+        $this->db->commit();
+        
+        // $this->haveItem();
+        
+        // $query = "call pro_checkout(:userID);";
+        // try {
+        // $user = $this->db->prepare($query);
+
+        // $user->bindValue(":userID", $this->userID);
+
+        // $user->execute();
+
+
+        // $this->db->commit();
+
+        // } catch (Exception $e) {
+        //     $this->db->rollBack();
+        //     throw $e;
+        // }
+    }
+
+    public function haveItem()
+    {
+        $query = <<<query
+            SELECT * FROM {$this->table}
+            WHERE userID = :userID;
+        query;
+
+        $result = $this->db->prepare($query);
+
+        $result->bindValue(":userID", $this->userID);
+
+        $result->execute();
+
+        if ($result->rowCount() < 1) {
+            http_response_code(404);
+            exit();
+        }
+    }
 }
