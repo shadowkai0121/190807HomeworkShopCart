@@ -4,7 +4,12 @@ class UserController extends Controller
 {
     public function index()
     {
-        $this->view("User/User", "ya");
+        $this->view("User/index");
+    }
+
+    public function ShopCart()
+    {
+        $this->view("User/ShopCart");
     }
 
     public function Login()
