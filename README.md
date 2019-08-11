@@ -519,6 +519,63 @@ admin
 
 - 放棄治療
 
+  ```php
+  <?php
+  $db = new PDO("mysql:host=localhost;dbname=test", "root", "");
+  
+  $db->query("call pro_test('55555555')");
+  >?
+  ```
+
+  
+
 - 丟給資料庫處理
 
+	```mysql
+	DELIMITER $$
+	DROP PROCEDURE IF EXISTS pro_test;
+	CREATE PROCEDURE `pro_test` (uid int)  
+	    BEGIN
+	        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	            BEGIN
+	                SELECT "transaction error";
+	                ROLLBACK;
+	            END;
+	        START TRANSACTION;
+	            SELECT @oldData := a, @idx := idx FROM test;
+	            SET @newData = CONCAT(@idx, "_", @oldData);
+	            INSERT INTO test(a, b) VALUES (uid, @newData);
+	            SELECT * FROM test;
+	        COMMIT;
+	    END$$
+	DELIMITER ; 
+	```
+
+	
+
 - 關 cursor
+
+	```php
+	<?php
+	
+	$db = new PDO("mysql:host=localhost;dbname=test", "root", "");
+	
+	$db->beginTransaction();
+	
+	$query = "call pro_test(:userid)";
+	
+	$stmt = $db->prepare($query);
+	
+	$stmt->bindValue(":userid", floor(rand(1000, 10000)));
+	
+	$stmt->execute();
+	
+	$stmt->closeCursor(); // 沒有這行就爆炸
+	
+	$db->commit();
+	?>
+	```
+
+	
+
+	
