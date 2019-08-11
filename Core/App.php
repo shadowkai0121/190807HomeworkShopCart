@@ -12,7 +12,7 @@ class App
 
             $this->callController();
         } else {
-            header("Location: " . Controller::actionUri("Product"));
+            Controller::redirect("Product");
         }
     }
 

@@ -24,8 +24,8 @@ class Database
 
             // 設定輸出編碼
             $this->pdo->exec("set names utf8");
-        } catch (PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+        } catch (PDOException $e) {
+            echo "Connection error: " . $e->getMessage();
         }
 
         return $this->pdo;

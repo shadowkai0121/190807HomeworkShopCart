@@ -25,9 +25,9 @@ class Controller
         return false;
     }
 
-    public function redirect($action)
+    public static function redirect($action)
     {
-        header("Location: {$this->actionUri($action)}");
+        header("Location: " . Controller::actionUri($action));
     }
 
     public static function actionUri($action)
@@ -65,7 +65,6 @@ class Controller
             $errAction();
         }
 
-        echo $message;
-        exit();
+        die($message);
     }
 }

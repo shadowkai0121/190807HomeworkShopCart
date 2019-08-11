@@ -29,6 +29,7 @@ class Product extends Table
             $menu = [];
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
+                // 過濾頁面上不使用的資料
                 $menu[] = array_filter(
                     $row,
                     function ($key) use ($noUseData) {

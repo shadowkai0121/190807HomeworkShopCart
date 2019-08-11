@@ -53,12 +53,12 @@ class UserController extends Controller
         // data[1] = 產品數量
         $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "POST");
 
-        if (!$this->isLogin()) {
-            $this->errorHandler(401, "請先登入再進行操作");
-        }
-        
         if (count($data) != 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
             $this->errorHandler();
+        }
+
+        if (!$this->isLogin()) {
+            $this->errorHandler(401, "請先登入再進行操作");
         }
 
         $orderDetail = $this->model("OrderDetail");
@@ -75,12 +75,12 @@ class UserController extends Controller
         // data[0] = 產品編號
         $this->checkRequestMethod($_SERVER['REQUEST_METHOD'], "DELETE");
 
-        if (!$this->isLogin()) {
-            $this->errorHandler(401, "請先登入再進行操作");
-        }
-        
         if (count($data) != 1 || !is_numeric($data[0])) {
             $this->errorHandler();
+        }
+
+        if (!$this->isLogin()) {
+            $this->errorHandler(401, "請先登入再進行操作");
         }
 
         $orderDetail = $this->model("OrderDetail");

@@ -28,6 +28,7 @@ class ShopCart extends Table
             $total = 0;
 
             while ($row = $rawData->fetch(PDO::FETCH_ASSOC)) {
+                // 過濾頁面上不使用的資料
                 $list[] = array_filter(
                     $row,
                     function ($key) use ($noUseData) {
@@ -44,6 +45,8 @@ class ShopCart extends Table
 
     public function checkOut()
     {
+        $this->haveItem();
+
         $query = "call pro_checkout(:userID);";
 
         try {
