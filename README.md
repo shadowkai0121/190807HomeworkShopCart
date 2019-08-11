@@ -34,9 +34,13 @@ admin
 | sum           | 目前總價         |
 | productPhotoS | 小張的產品圖路徑 |
 
+## 類別圖
+
+![Model_Class_Diagram](./assets/Model_Class_Diagram.png)
+
 ### 資料夾結構
 
-```bash
+```
 +----------------------+
 |190807HomeworkShopCart|
 +----+---------------+-+
@@ -54,6 +58,7 @@ admin
      |     +------+
      +-----+Models|
      |     +----+-+
+     |          |OrderDetail.php
      |          |Product.php
      |          |ShopCart.php
      |          |User.php
@@ -77,7 +82,6 @@ admin
                          +----+Member|            |    +---+
                          |    +----+-+            +----+img|
                          |         |Login.php          +---+
-                         |         |Register.php
                          |         +------------+
                          |
                          |    +-------+
