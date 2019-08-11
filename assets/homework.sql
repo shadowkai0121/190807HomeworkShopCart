@@ -23,6 +23,7 @@ SET time_zone = "+00:00";
 --
 DROP DATABASE IF EXISTS homework;
 CREATE DATABASE homework;
+USE homework;
 
 DELIMITER $$
 --
