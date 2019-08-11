@@ -531,27 +531,28 @@ admin
 
 - 丟給資料庫處理
 
-	```mysql
-	DELIMITER $$
-	DROP PROCEDURE IF EXISTS pro_test;
-	CREATE PROCEDURE `pro_test` (uid int)  
-	    BEGIN
-	        DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	            BEGIN
-	                SELECT "transaction error";
-	                ROLLBACK;
-	            END;
-	        START TRANSACTION;
-	            SELECT @oldData := a, @idx := idx FROM test;
-	            SET @newData = CONCAT(@idx, "_", @oldData);
-	            INSERT INTO test(a, b) VALUES (uid, @newData);
-	            SELECT * FROM test;
-	        COMMIT;
-	    END$$
-	DELIMITER ; 
-	```
+  ```mysql
+  DELIMITER $$
+  DROP PROCEDURE IF EXISTS pro_test;
+  CREATE PROCEDURE `pro_test` (uid int)  
+      BEGIN
+          DECLARE EXIT HANDLER FOR SQLEXCEPTION
+              BEGIN
+                  SELECT "transaction error"; -- PDO 好像接收不到這行?!!!
+                  ROLLBACK;
+                  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Custom error';
+              END;
+          START TRANSACTION;
+              SELECT @oldData := a, @idx := idx FROM test;
+              SET @newData = CONCAT(@idx, "_", @oldData);
+              INSERT INTO test(a, b) VALUES (uid, @newData);
+              SELECT * FROM test;
+          COMMIT;
+      END$$
+  DELIMITER ; 
+  ```
 
-	
+  
 
 - 關 cursor
 

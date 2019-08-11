@@ -44,33 +44,30 @@ class ShopCart extends Table
 
     public function checkOut()
     {
-        $query = "call pro_checkout({$this->userID});";
+        $query = "call pro_checkout(:userID);";
 
-        $this->db->beginTransaction();
-
-        // $test = $this->db->prepare($query);
-        // $test->bindParam(1, $this->userID, PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT, 4000);
-        // $test->execute();
-        $this->db->query($query);
-        $this->db->commit();
+        try {
+            $this->db->beginTransaction();
         
-        // $this->haveItem();
-        
-        // $query = "call pro_checkout(:userID);";
-        // try {
-        // $user = $this->db->prepare($query);
+            $checkout = $this->db->prepare($query);
+            $checkout->bindValue(":userID", $this->userID);
 
-        // $user->bindValue(":userID", $this->userID);
+            if (!$checkout->execute()) {
+                $this->db->rollBack() ;
+                echo "結帳失敗";
+            }
+            $checkout->closeCursor();
 
-        // $user->execute();
-
-
-        // $this->db->commit();
-
-        // } catch (Exception $e) {
-        //     $this->db->rollBack();
-        //     throw $e;
-        // }
+            if ($this->db->commit()) {
+                echo "結帳成功";
+            }
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            throw $e;
+        } catch (Exeception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 
     public function haveItem()
